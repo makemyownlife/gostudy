@@ -7,3 +7,9 @@ pkg
 *.exe
 *.a
 
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+.glide/

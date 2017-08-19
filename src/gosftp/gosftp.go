@@ -8,44 +8,53 @@ import (
 	"github.com/pkg/sftp"
 	"net"
 	"os"
-	"path"
+	"path/filepath"
+	"strings"
 )
 
 func main() {
-	fmt.Println("hello ,world")
+	fmt.Println("开始上传windows文件夹到相应目录")
 
 	sftpClient, err := connect("root", "123456a?", "192.168.1.205", 22)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer sftpClient.Close()
 
-	// 用来测试的本地文件路径 和 远程机器上的文件夹
 	var localFilePath = "D:\\server\\lib"
-	var remoteDir = "/opt"
-	srcFile, err := os.Open(localFilePath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer srcFile.Close()
+	var remoteDir = "/opt/lib"
 
-	var remoteFileName = path.Base(localFilePath)
-	dstFile, err := sftpClient.Create(path.Join(remoteDir, remoteFileName))
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer dstFile.Close()
+	//先创建远程相关的目录
+	filepath.Walk(localFilePath,
+		func(currentPath string, f os.FileInfo, err error) error {
+			if f == nil {
+				return err
+			}
+			var transferFile = remoteDir + combinWindowsPathToRemoteDir(localFilePath, currentPath)
+			fmt.Println("开始创建远程文件:" + transferFile + " 本地文件：" + currentPath)
+			if f.IsDir() {
+				sftpClient.Mkdir(transferFile)
+			}
+			srcFile, err1 := os.Open(currentPath)
+			if err1 != nil {
+				log.Fatal(err1)
+			}
+			defer srcFile.Close()
+			dstFile, err2 := sftpClient.Create(transferFile)
+			if err2 != nil {
+			}
+			defer dstFile.Close()
+			buf := make([]byte, 1024)
+			for {
+				n, _ := srcFile.Read(buf)
+				if n == 0 {
+					break
+				}
+				dstFile.Write(buf)
+			}
+			return nil
+		})
 
-	buf := make([]byte, 1024)
-	for {
-		n, _ := srcFile.Read(buf)
-		if n == 0 {
-			break
-		}
-		dstFile.Write(buf)
-	}
-
-	fmt.Println("copy file to remote server finished!")
+	defer sftpClient.Close()
 
 	//睡一会
 	sleepForAwhile(10)
@@ -93,4 +102,9 @@ func connect(user, password, host string, port int) (*sftp.Client, error) {
 func sleepForAwhile(sleepTime int) {
 	duration := time.Duration(sleepTime) * time.Second
 	time.Sleep(duration)
+}
+
+func combinWindowsPathToRemoteDir(rootDir string, currentDir string) string {
+	var remotePath string = strings.Replace(strings.Replace(currentDir, rootDir, "", -1), "\\", "/", -1)
+	return remotePath
 }
