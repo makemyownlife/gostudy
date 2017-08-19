@@ -4,9 +4,6 @@
 *.iml
 bin
 pkg
+*.exe
+*.a
 
-
-Would skip repository src/github.com/kr/fs
-Would skip repository src/github.com/pkg/errors
-Would skip repository src/github.com/pkg/sftp
-src/gosftp/gosftp.exe
