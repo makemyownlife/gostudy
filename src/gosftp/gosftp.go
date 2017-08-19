@@ -33,23 +33,25 @@ func main() {
 			fmt.Println("开始创建远程文件:" + transferFile + " 本地文件：" + currentPath)
 			if f.IsDir() {
 				sftpClient.Mkdir(transferFile)
-			}
-			srcFile, err1 := os.Open(currentPath)
-			if err1 != nil {
-				log.Fatal(err1)
-			}
-			defer srcFile.Close()
-			dstFile, err2 := sftpClient.Create(transferFile)
-			if err2 != nil {
-			}
-			defer dstFile.Close()
-			buf := make([]byte, 1024)
-			for {
-				n, _ := srcFile.Read(buf)
-				if n == 0 {
-					break
+				return nil
+			} else {
+				srcFile, err1 := os.Open(currentPath)
+				if err1 != nil {
+					log.Fatal(err1)
 				}
-				dstFile.Write(buf)
+				defer srcFile.Close()
+				dstFile, err2 := sftpClient.Create(transferFile)
+				if err2 != nil {
+				}
+				defer dstFile.Close()
+				buf := make([]byte, 1024)
+				for {
+					n, _ := srcFile.Read(buf)
+					if n == 0 {
+						break
+					}
+					dstFile.Write(buf)
+				}
 			}
 			return nil
 		})
