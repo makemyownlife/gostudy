@@ -10,54 +10,66 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"github.com/pelletier/go-toml"
 )
 
 func main() {
 	fmt.Println("开始上传windows文件夹到相应目录")
 
-	sftpClient, err := connect("root", "123456a?", "192.168.1.205", 22)
+	execDirAbsPath, _ := os.Getwd()
+	log.Println("执行程序所在目录的绝对路径:", execDirAbsPath)
+
+	config, err := toml.LoadFile(execDirAbsPath + "\\" + "config.toml")
 	if err != nil {
-		log.Fatal(err)
-	}
+		fmt.Println("Error ", err.Error())
+	} else {
+		sftpClient, err := connect(
+			config.Get("sftp.remoteUser").(string),
+			config.Get("sftp.remotePass").(string),
+			config.Get("sftp.remoteIp").(string),
+			22)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	var localFilePath = "D:\\server\\lib"
-	var remoteDir = "/opt/lib"
+		var localFilePath = config.Get("sftp.localDir").(string)
+		var remoteDir = config.Get("sftp.remoteDir").(string)
 
-	//先创建远程相关的目录
-	filepath.Walk(localFilePath,
-		func(currentPath string, f os.FileInfo, err error) error {
-			if f == nil {
-				return err
-			}
-			var transferFile = remoteDir + combinWindowsPathToRemoteDir(localFilePath, currentPath)
-			fmt.Println("开始创建远程文件:" + transferFile + " 本地文件：" + currentPath)
-			if f.IsDir() {
-				sftpClient.Mkdir(transferFile)
-				return nil
-			} else {
-				srcFile, err1 := os.Open(currentPath)
-				if err1 != nil {
-					log.Fatal(err1)
+		//先创建远程相关的目录
+		filepath.Walk(localFilePath,
+			func(currentPath string, f os.FileInfo, err error) error {
+				if f == nil {
+					return err
 				}
-				defer srcFile.Close()
-				dstFile, err2 := sftpClient.Create(transferFile)
-				if err2 != nil {
-				}
-				defer dstFile.Close()
-				buf := make([]byte, 1024)
-				for {
-					n, _ := srcFile.Read(buf)
-					if n == 0 {
-						break
+				var transferFile = remoteDir + combinWindowsPathToRemoteDir(localFilePath, currentPath)
+				fmt.Println("开始创建远程文件:" + transferFile + " 本地文件：" + currentPath)
+				if f.IsDir() {
+					sftpClient.Mkdir(transferFile)
+					return nil
+				} else {
+					srcFile, err1 := os.Open(currentPath)
+					if err1 != nil {
+						log.Fatal(err1)
 					}
-					dstFile.Write(buf)
+					defer srcFile.Close()
+					dstFile, err2 := sftpClient.Create(transferFile)
+					if err2 != nil {
+					}
+					defer dstFile.Close()
+					buf := make([]byte, 1024)
+					for {
+						n, _ := srcFile.Read(buf)
+						if n == 0 {
+							break
+						}
+						dstFile.Write(buf)
+					}
 				}
-			}
-			return nil
-		})
+				return nil
+			})
 
-	defer sftpClient.Close()
-
+		defer sftpClient.Close()
+	}
 	//睡一会
 	sleepForAwhile(10)
 
