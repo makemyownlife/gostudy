@@ -23,7 +23,7 @@ func main() {
 	if err != nil {
 		fmt.Println("Error ", err.Error())
 	} else {
-		sftpClient, err := connect(
+		sftpClient, sshClient , err := connect(
 			config.Get("sftp.remoteUser").(string),
 			config.Get("sftp.remotePass").(string),
 			config.Get("sftp.remoteIp").(string),
@@ -69,14 +69,27 @@ func main() {
 			})
 
 		defer sftpClient.Close()
+		defer  sshClient.Close()
+		session, err := sshClient.NewSession()
+		defer session.Close()
+		session.Stdout = os.Stdout
+		session.Stderr = os.Stderr
+		fmt.Println("开始执行后置脚本")
+		myerr := session.Run("export BASH_ENV=/etc/profile && /usr/local/apache-tomcat-8.0.43/bin/startup.sh" )
+		if myerr != nil {
+			fmt.Println(myerr)
+		}
+		fmt.Println("完成执行后置脚本")
+
 	}
+
 	//睡一会
 	sleepForAwhile(10)
 
 	sleepForAwhile(2)
 }
 
-func connect(user, password, host string, port int) (*sftp.Client, error) {
+func connect(user, password, host string, port int) (*sftp.Client,*ssh.Client , error) {
 	var (
 		auth         []ssh.AuthMethod
 		addr         string
@@ -96,21 +109,22 @@ func connect(user, password, host string, port int) (*sftp.Client, error) {
 		HostKeyCallback: func(hostname string, remote net.Addr, key ssh.PublicKey) error {
 			return nil
 		},
+
 	}
 
 	// connet to ssh
 	addr = fmt.Sprintf("%s:%d", host, port)
 
 	if sshClient, err = ssh.Dial("tcp", addr, clientConfig); err != nil {
-		return nil, err
+		return nil, nil ,err
 	}
 
 	// create sftp client
 	if sftpClient, err = sftp.NewClient(sshClient); err != nil {
-		return nil, err
+		return nil, nil ,err
 	}
 
-	return sftpClient, nil
+	return sftpClient, sshClient , nil
 }
 
 func sleepForAwhile(sleepTime int) {
@@ -122,3 +136,4 @@ func combinWindowsPathToRemoteDir(rootDir string, currentDir string) string {
 	var remotePath string = strings.Replace(strings.Replace(currentDir, rootDir, "", -1), "\\", "/", -1)
 	return remotePath
 }
+

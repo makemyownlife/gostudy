@@ -4,5 +4,5 @@ remoteDir = "/opt/lib"
 remoteIp = "192.168.1.205"
 remoteUser = "root"
 remotePass = "123456a?"
-
+shellPath = "/usr/local/apache-tomcat-8.0.43/bin/startup.sh"
 
