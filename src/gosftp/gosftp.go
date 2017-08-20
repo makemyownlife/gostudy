@@ -75,7 +75,7 @@ func main() {
 		session.Stdout = os.Stdout
 		session.Stderr = os.Stderr
 		fmt.Println("开始执行后置脚本")
-		myerr := session.Run("export BASH_ENV=/etc/profile && /usr/local/apache-tomcat-8.0.43/bin/startup.sh" )
+		myerr := session.Run("source /etc/profile && /usr/local/apache-tomcat-8.0.43/bin/startup.sh" )
 		if myerr != nil {
 			fmt.Println(myerr)
 		}
