@@ -19,7 +19,7 @@ func main() {
 	execDirAbsPath, _ := os.Getwd()
 	log.Println("执行程序所在目录的绝对路径:", execDirAbsPath)
 
-	config, err := toml.LoadFile(execDirAbsPath + "\\" + "config.toml")
+	config, err := toml.LoadFile(execDirAbsPath + "\\config\\gosftp\\" + "remoteconfig.toml")
 	if err != nil {
 		fmt.Println("Error ", err.Error())
 	} else {
@@ -34,6 +34,7 @@ func main() {
 
 		var localFilePath = config.Get("sftp.localDir").(string)
 		var remoteDir = config.Get("sftp.remoteDir").(string)
+		var afterUploadShell =  config.Get("sftp.shellPath").(string)
 
 		//先创建远程相关的目录
 		filepath.Walk(localFilePath,
@@ -75,12 +76,12 @@ func main() {
 		session.Stdout = os.Stdout
 		session.Stderr = os.Stderr
 		fmt.Println("开始执行后置脚本")
-		myerr := session.Run("source /etc/profile && /usr/local/apache-tomcat-8.0.43/bin/startup.sh" )
+		var shell = "source /etc/profile && " + afterUploadShell
+		myerr := session.Run(shell)
 		if myerr != nil {
 			fmt.Println(myerr)
 		}
 		fmt.Println("完成执行后置脚本")
-
 	}
 
 	//睡一会
