@@ -1,0 +1,7 @@
+[maven]
+path = "D:\\"
+projectName = "newdda-client"
+
+[postgres]
+user = "pelletier"
+password = "mypassword"
