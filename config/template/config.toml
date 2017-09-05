@@ -1,7 +1,12 @@
 [maven]
 path = "D:\\"
 projectName = "newdda-client"
+fileSeperator = "\\"
+groupId = "com.elong.pb.newdda"
+artifactId = "newdda-client"
 
-[postgres]
-user = "pelletier"
-password = "mypassword"
+[bill]
+dbuser = "fcar_loan"
+dbpwd = "fcar_loan"
+ddurl = "10.104.50.41:3306"
+dbname = "fcar_loan"
