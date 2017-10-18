@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	fmt.Println("hello myworld");
+	fmt.Println("begin to load verycode");
 	verycode.StartVeryCodeServer();
 }
