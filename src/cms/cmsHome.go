@@ -7,7 +7,7 @@ import (
 )
 
 func GetHomeData() {
-	cmsUrl := "http://xxcmsapi.biyao.com/homepage/getData?pageSize=10&curPageNumber=1";
+	cmsUrl := "http://cmsapi.biyao.com/homepage/getData?pageSize=10&curPageNumber=1";
 	resp, err := http.Get(cmsUrl)
 	if err != nil {
 		// handle error
