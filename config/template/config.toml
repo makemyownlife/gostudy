@@ -1,9 +1,9 @@
 [maven]
 path = "D:\\"
-projectName = "newdda-client"
+projectName = "hshc-mqmanager"
 fileSeperator = "\\"
-groupId = "com.elong.pb.newdda"
-artifactId = "newdda-client"
+groupId = "com.hshc.mqmanager"
+artifactId = "hshc-mqmanager"
 
 [bill]
 dbuser = "fcar_loan"
