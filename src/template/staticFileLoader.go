@@ -1,9 +1,9 @@
 package template
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
-	"fmt"
 )
 
 func readStaticFile(path string) string {

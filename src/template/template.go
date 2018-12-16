@@ -1,13 +1,13 @@
 package template
 
 import (
-	"github.com/pelletier/go-toml"
 	"fmt"
-	"os"
-	"text/template"
+	"github.com/pelletier/go-toml"
 	"io/ioutil"
-	"strings"
 	"log"
+	"os"
+	"strings"
+	"text/template"
 )
 
 type Inventory struct {
@@ -48,9 +48,9 @@ func CreateMavenProject() {
 		pomObject := Inventory{groupId, artifactId}
 		//创建pom文件目录
 		pomStr := readStaticFile("config/template/static/pom.xml")
-		pomTmp, err := template.New("pom").Parse(pomStr)  //建立一个模板
+		pomTmp, err := template.New("pom").Parse(pomStr) //建立一个模板
 		//将struct与模板合成，合成结果放到os.Stdout里
-		pomWriter, err3 := os.Create(projectPath + fileSeperator + "pom.xml")  //创建文件
+		pomWriter, err3 := os.Create(projectPath + fileSeperator + "pom.xml") //创建文件
 		err = pomTmp.Execute(pomWriter, pomObject)
 		if err != nil {
 			panic(err)
@@ -62,7 +62,7 @@ func CreateMavenProject() {
 		fmt.Println("create pomfile success")
 
 		//复制 pom gitignore文件到目的目录
-		ignoreFilePath := []string{projectPath, ".gitignore"};
+		ignoreFilePath := []string{projectPath, ".gitignore"}
 		copyStaticFileToTarget("config/template/static/.gitignore", strings.Join(ignoreFilePath, fileSeperator))
 
 		//循环创建 src 相关的目录 以及log4j.xml
@@ -84,7 +84,7 @@ func CreateMavenProject() {
 
 		//logback页面的修正
 		logbackStr := readStaticFile("config/template/static/logback.xml")
-		ioutil.WriteFile(resourcesPath + fileSeperator + "logback.xml", []byte(logbackStr), 0777)
+		ioutil.WriteFile(resourcesPath+fileSeperator+"logback.xml", []byte(logbackStr), 0777)
 	}
 
 }

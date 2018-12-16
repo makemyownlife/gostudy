@@ -13,3 +13,4 @@ pkg
 *.test
 *.out
 .glide/
+gitee.com/*

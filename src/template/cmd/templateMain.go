@@ -2,6 +2,6 @@ package main
 
 import "template"
 
-func main()  {
-	template.CreateMavenProject();
+func main() {
+	template.CreateMavenProject()
 }
