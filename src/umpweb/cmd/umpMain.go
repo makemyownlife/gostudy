@@ -1,9 +1,15 @@
 package main
 
 import (
-	"fmt"
+	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/net/ghttp"
 )
 
 func main() {
-	fmt.Println("begin to umpMain data 😆");
+	s := g.Server()
+	s.BindHandler("/", func(r *ghttp.Request) {
+		r.Response.Write("哈喽世界！")
+	})
+	s.SetPort(8100)
+	s.Run()
 }
