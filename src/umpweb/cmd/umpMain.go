@@ -13,6 +13,8 @@ func main() {
 	})
 	s.SetPort(8100)
 	gins.View().AddPath(".")
+	//本地文件系统
+	//s.SetServerRoot("D:/AdminLTE-master")
 	s.BindHandler("/template2", func(r *ghttp.Request) {
 		content, _ := gins.View().Parse("index.tpl", map[string]interface{}{
 			"id":   123,
