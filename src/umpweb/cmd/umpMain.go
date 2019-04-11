@@ -1,9 +1,8 @@
 package main
 
 import (
-	"gitee.com/johng/gf/g"
-	"gitee.com/johng/gf/g/frame/gins"
-	"gitee.com/johng/gf/g/net/ghttp"
+	"github.com/gogf/gf/g"
+	"github.com/gogf/gf/g/net/ghttp"
 )
 
 func main() {
@@ -12,14 +11,5 @@ func main() {
 		r.Response.Write("哈喽世界！")
 	})
 	s.SetPort(8100)
-	s.SetServerRoot("/Users/zhangyong/Movies/美拍")
-	gins.View().AddPath(".")
-	s.BindHandler("/template2", func(r *ghttp.Request) {
-		content, _ := gins.View().Parse("index.tpl", map[string]interface{}{
-			"id":   123,
-			"name": "john",
-		})
-		r.Response.Write(content)
-	})
 	s.Run()
 }
