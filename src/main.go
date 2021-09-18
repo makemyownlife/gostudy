@@ -1,6 +1,6 @@
 package main
 
-import "template"
+import "go-study/src/template"
 
 func main() {
 	template.CreateMavenProject()
