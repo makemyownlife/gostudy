@@ -1,7 +1,0 @@
-[sftp]
-localDir = "D:\\server\\lib"
-remoteDir = "/opt/lib"
-remoteIp = "192.168.99.121"
-remoteUser = "root"
-remotePass = "123456"
-shellPath = ""
