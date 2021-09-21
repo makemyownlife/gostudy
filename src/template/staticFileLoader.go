@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"text/template"
 )
 
 func readStaticFile(path string) string {
@@ -33,4 +34,20 @@ func copyStaticFileToTarget(filepath string, dest string) {
 	defer fi.Close()
 	fd, err := ioutil.ReadAll(fi)
 	ioutil.WriteFile(dest, []byte(string(fd)), 0777)
+}
+
+func renderPomFile(pomSrc string, p *Inventory2, pomDest string) {
+	pomStr := readStaticFile(pomSrc)
+	pomTmp, err := template.New("pom").Parse(pomStr) //建立一个模板
+	//将struct与模板合成，合成结果放到os.Stdout里
+	var pomPath = pomDest + string(os.PathSeparator) + "pom.xml"
+	pomWriter, err3 := os.Create(pomPath) //创建文件
+	err = pomTmp.Execute(pomWriter, p)
+	if err != nil {
+		panic(err)
+	}
+	if err3 != nil {
+		panic(err)
+	}
+	defer pomWriter.Close()
 }

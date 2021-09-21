@@ -100,6 +100,8 @@ func CreateBootMavenProject() {
 		var commonPackageInfo = "package " + basePackage + ".common;"
 		ioutil.WriteFile(commonClasspath+separator+"package-info.java", []byte(string(commonPackageInfo)), 0777)
 
+		renderPomFile("config/boot/static/common/pom.xml", &pomObject, commonPath)
+
 		//===================================================================================================创建api 模块 ===================================================================================================
 		var apiModule = moduleNamePrefix + "-api"
 		var apiPath = projectPath + string(os.PathSeparator) + apiModule
@@ -126,14 +128,119 @@ func CreateBootMavenProject() {
 		var apiPackageInfo = "package " + basePackage + ".api;"
 		ioutil.WriteFile(apiClasspath+separator+"package-info.java", []byte(string(apiPackageInfo)), 0777)
 
+		renderPomFile("config/boot/static/api/pom.xml", &pomObject, apiPath)
+
 		//===================================================================================================创建domain模块 ===================================================================================================
+		var domainModule = moduleNamePrefix + "-domain"
+		var domainPath = projectPath + string(os.PathSeparator) + domainModule
+		os.MkdirAll(domainPath, 0777)
+
+		var domainSrcPath = domainPath + string(os.PathSeparator) + "src"
+		log.Println("domainSrcPath:   " + domainSrcPath)
+		createSrcDir(domainSrcPath)
+
+		var domainMainPath = domainSrcPath + separator + "main"
+		var domainJavaPath = domainMainPath + separator + "java"
+		var domainResPath = domainMainPath + separator + "resources"
+		var domainTestPath = domainSrcPath + separator + "test"
+		var domainTestJavaPath = domainTestPath + separator + "java"
+
+		createSrcDir(domainJavaPath)
+		createSrcDir(domainResPath)
+		createSrcDir(domainTestPath)
+		createSrcDir(domainTestJavaPath)
+
+		domainClasspath := domainJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "domain"
+		createSrcDir(domainClasspath)
+
+		var domainPackageInfo = "package " + basePackage + ".domain;"
+		ioutil.WriteFile(domainClasspath+separator+"package-info.java", []byte(string(domainPackageInfo)), 0777)
+
+		renderPomFile("config/boot/static/domain/pom.xml", &pomObject, domainPath)
 
 		//===================================================================================================创建service模块 ===================================================================================================
 
+		var serviceModule = moduleNamePrefix + "-service"
+		var servicePath = projectPath + string(os.PathSeparator) + serviceModule
+		os.MkdirAll(servicePath, 0777)
+
+		var serviceSrcPath = servicePath + string(os.PathSeparator) + "src"
+		log.Println("serviceSrcPath:   " + serviceSrcPath)
+		createSrcDir(serviceSrcPath)
+
+		var serviceMainPath = serviceSrcPath + separator + "main"
+		var serviceJavaPath = serviceMainPath + separator + "java"
+		var serviceResPath = serviceMainPath + separator + "resources"
+		var serviceTestPath = serviceSrcPath + separator + "test"
+		var serviceTestJavaPath = serviceTestPath + separator + "java"
+
+		createSrcDir(serviceJavaPath)
+		createSrcDir(serviceResPath)
+		createSrcDir(serviceTestPath)
+		createSrcDir(serviceTestJavaPath)
+
+		serviceClasspath := serviceJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "service"
+		createSrcDir(serviceClasspath)
+
+		var servicePackageInfo = "package " + basePackage + ".service;"
+		ioutil.WriteFile(serviceClasspath+separator+"package-info.java", []byte(string(servicePackageInfo)), 0777)
+
+		renderPomFile("config/boot/static/service/pom.xml", &pomObject, servicePath)
 		//===================================================================================================创建provider模块 ===================================================================================================
+		var providerModule = moduleNamePrefix + "-provider"
+		var providerPath = projectPath + string(os.PathSeparator) + providerModule
+		os.MkdirAll(providerPath, 0777)
+
+		var providerSrcPath = providerPath + string(os.PathSeparator) + "src"
+		log.Println("providerSrcPath:   " + providerSrcPath)
+		createSrcDir(providerSrcPath)
+
+		var providerMainPath = providerSrcPath + separator + "main"
+		var providerJavaPath = providerMainPath + separator + "java"
+		var providerResPath = providerMainPath + separator + "resources"
+		var providerTestPath = providerSrcPath + separator + "test"
+		var providerTestJavaPath = providerTestPath + separator + "java"
+
+		createSrcDir(providerJavaPath)
+		createSrcDir(providerResPath)
+		createSrcDir(providerTestPath)
+		createSrcDir(providerTestJavaPath)
+
+		providerClasspath := providerJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "provider"
+		createSrcDir(providerClasspath)
+
+		var providerPackageInfo = "package " + basePackage + ".provider;"
+		ioutil.WriteFile(providerClasspath+separator+"package-info.java", []byte(string(providerPackageInfo)), 0777)
+
+		renderPomFile("config/boot/static/provider/pom.xml", &pomObject, providerPath)
 
 		//===================================================================================================创建server模块 ===================================================================================================
+		var serverModule = moduleNamePrefix + "-server"
+		var serverPath = projectPath + string(os.PathSeparator) + serverModule
+		os.MkdirAll(serverPath, 0777)
 
+		var serverSrcPath = serverPath + string(os.PathSeparator) + "src"
+		log.Println("serverSrcPath:   " + serverSrcPath)
+		createSrcDir(serverSrcPath)
+
+		var serverMainPath = serverSrcPath + separator + "main"
+		var serverJavaPath = serverMainPath + separator + "java"
+		var serverResPath = serverMainPath + separator + "resources"
+		var serverTestPath = serverSrcPath + separator + "test"
+		var serverTestJavaPath = serverTestPath + separator + "java"
+
+		createSrcDir(serverJavaPath)
+		createSrcDir(serverResPath)
+		createSrcDir(serverTestPath)
+		createSrcDir(serverTestJavaPath)
+
+		serverClasspath := serverJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "server"
+		createSrcDir(serverClasspath)
+
+		var serverPackageInfo = "package " + basePackage + ".server;"
+		ioutil.WriteFile(serverClasspath+separator+"package-info.java", []byte(string(serverPackageInfo)), 0777)
+
+		renderPomFile("config/boot/static/server/pom.xml", &pomObject, serverPath)
 		//===================================================================================================创建demo模块 ===================================================================================================
 
 	}
