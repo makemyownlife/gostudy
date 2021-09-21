@@ -172,6 +172,11 @@ func CreateBootMavenProject() {
 			&pomObject,
 			domainClasspath+separator+"po"+separator+"User.java")
 
+		renderOtherFile(
+			"config/boot/static/domain/UserMapper.xml",
+			&pomObject,
+			domainResPath+separator+"UserMapper.xml")
+
 		//===================================================================================================创建service模块 ===================================================================================================
 
 		var serviceModule = moduleNamePrefix + "-service"
@@ -200,6 +205,12 @@ func CreateBootMavenProject() {
 		ioutil.WriteFile(serviceClasspath+separator+"package-info.java", []byte(string(servicePackageInfo)), 0777)
 
 		renderPomFile("config/boot/static/service/pom.xml", &pomObject, servicePath)
+
+		renderOtherFile(
+			"config/boot/static/service/UserService.java",
+			&pomObject,
+			serviceClasspath+separator+"UserService.java")
+
 		//===================================================================================================创建provider模块 ===================================================================================================
 		var providerModule = moduleNamePrefix + "-provider"
 		var providerPath = projectPath + string(os.PathSeparator) + providerModule
@@ -225,6 +236,11 @@ func CreateBootMavenProject() {
 
 		var providerPackageInfo = "package " + basePackage + ".provider;"
 		ioutil.WriteFile(providerClasspath+separator+"package-info.java", []byte(string(providerPackageInfo)), 0777)
+
+		renderOtherFile(
+			"config/boot/static/provider/TestDubboServiceImpl.java",
+			&pomObject,
+			providerClasspath+separator+"TestDubboServiceImpl.java")
 
 		renderPomFile("config/boot/static/provider/pom.xml", &pomObject, providerPath)
 

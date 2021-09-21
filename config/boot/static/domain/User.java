@@ -1,4 +1,4 @@
-package com.iflytek.training.order.domain.po;
+package {{.BasePackage}}.domain.po;
 
 import java.util.Date;
 
