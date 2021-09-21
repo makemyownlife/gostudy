@@ -1,0 +1,5 @@
+[maven]
+path = "d:\\User\\zhangyong\\go"
+projectName = "training-order-all"
+moduleNamePrefix = "training-order"
+groupId = "com.iflytek.training"
