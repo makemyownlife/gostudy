@@ -1,4 +1,4 @@
-package ${{.BasePackage}}.api.dto;
+package {{.BasePackage}}.api.dto;
 
 import java.io.Serializable;
 

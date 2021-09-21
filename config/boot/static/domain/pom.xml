@@ -15,7 +15,7 @@
 
         <dependency>
             <groupId>{{.GroupId}}</groupId>
-            <artifactId>{{.ModuleNamePrefix}}-domain</artifactId>
+            <artifactId>{{.ModuleNamePrefix}}-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

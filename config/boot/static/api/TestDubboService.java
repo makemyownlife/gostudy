@@ -1,6 +1,6 @@
-package ${{.BasePackage}}.api;
+package {{.BasePackage}}.api;
 
-import ${{.BasePackage}}.api.dto.HelloResult;
+import {{.BasePackage}}.api.dto.HelloResult;
 
 public interface TestDubboService {
 

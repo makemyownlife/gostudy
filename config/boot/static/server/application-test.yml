@@ -31,8 +31,8 @@ dubbo:
     address: zookeeper://localhost:2181?backup=localhost:2181,localhost:2181
     port: 9991
   application:
-    id: ${ModuleNamePrefix}-server
-    name: ${ModuleNamePrefix}-server
+    id: {{.ModuleNamePrefix}}-server
+    name: {{.ModuleNamePrefix}}-server
   scan:
     base-packages: {{.BasePackage}}
 
