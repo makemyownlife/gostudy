@@ -1,5 +1,5 @@
 [maven]
-path = "/Users/zhangyong/go/mydelay-store/"
+path = "d:/Users/zhangyong/go/mydelay-store/"
 projectName = "mydelay-store"
 fileSeperator = "/"
 groupId = "com.zy.code.sublime"
