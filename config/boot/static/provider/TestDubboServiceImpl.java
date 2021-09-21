@@ -1,10 +1,10 @@
 package {{.BasePackage}}.provider;
 
 import com.alibaba.fastjson.JSON;
-import com.iflytek.training.order.api.TestDubboService;
-import com.iflytek.training.order.api.dto.HelloResult;
-import com.iflytek.training.order.domain.po.User;
-import com.iflytek.training.order.service.UserService;
+import {{.BasePackage}}.api.TestDubboService;
+import {{.BasePackage}}.api.dto.HelloResult;
+import {{.BasePackage}}.domain.po.User;
+import {{.BasePackage}}.service.UserService;
 import org.apache.dubbo.config.annotation.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

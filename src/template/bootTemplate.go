@@ -126,10 +126,22 @@ func CreateBootMavenProject() {
 		apiClasspath := apiJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "api"
 		createSrcDir(apiClasspath)
 
-		var apiPackageInfo = "package " + basePackage + ".api;"
-		ioutil.WriteFile(apiClasspath+separator+"package-info.java", []byte(string(apiPackageInfo)), 0777)
+		//var apiPackageInfo = "package " + basePackage + ".api;"
+		//ioutil.WriteFile(apiClasspath+separator+"package-info.java", []byte(string(apiPackageInfo)), 0777)
 
 		renderPomFile("config/boot/static/api/pom.xml", &pomObject, apiPath)
+
+		createSrcDir(apiClasspath + separator + "dto")
+
+		renderOtherFile(
+			"config/boot/static/api/dto/HelloResult.java",
+			&pomObject,
+			apiClasspath+separator+"dto"+separator+"HelloResult.java")
+
+		renderOtherFile(
+			"config/boot/static/api/TestDubboService.java",
+			&pomObject,
+			apiClasspath+separator+"TestDubboService.java")
 
 		//===================================================================================================创建domain模块 ===================================================================================================
 		var domainModule = moduleNamePrefix + "-domain"
@@ -291,8 +303,8 @@ func CreateBootMavenProject() {
 
 		createSrcDir(serverResPath + separator + "logger")
 
-		copyStaticFileToTarget("config/boot/static/server/logback-prod.xml", serverResPath+separator+"logger"+separator+"logback-prod.xml")
-		copyStaticFileToTarget("config/boot/static/server/logback-test.xml", serverResPath+separator+"logger"+separator+"logback-test.xml")
+		renderOtherFile("config/boot/static/server/logback-prod.xml", &pomObject, serverResPath+separator+"logger"+separator+"logback-prod.xml")
+		renderOtherFile("config/boot/static/server/logback-test.xml", &pomObject, serverResPath+separator+"logger"+separator+"logback-test.xml")
 
 		//===================================================================================================创建demo模块 ===================================================================================================
 
