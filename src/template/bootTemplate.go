@@ -13,6 +13,7 @@ type Inventory2 struct {
 	GroupId          string
 	ProjectName      string
 	ModuleNamePrefix string
+	BasePackage      string
 }
 
 func CreateBootMavenProject() {
@@ -46,7 +47,7 @@ func CreateBootMavenProject() {
 		log.Println("Create Direcry OK!")
 
 		//创建pom文件
-		pomObject := Inventory2{groupId, projectName, moduleNamePrefix}
+		pomObject := Inventory2{groupId, projectName, moduleNamePrefix, basePackage}
 		//创建pom文件目录
 		pomStr := readStaticFile("config/boot/static/pom.xml")
 		pomTmp, err := template.New("pom").Parse(pomStr) //建立一个模板
@@ -157,6 +158,19 @@ func CreateBootMavenProject() {
 		ioutil.WriteFile(domainClasspath+separator+"package-info.java", []byte(string(domainPackageInfo)), 0777)
 
 		renderPomFile("config/boot/static/domain/pom.xml", &pomObject, domainPath)
+		createSrcDir(domainClasspath + separator + "mapper")
+
+		renderOtherFile(
+			"config/boot/static/domain/UserMapper.java",
+			&pomObject,
+			domainClasspath+separator+"mapper"+separator+"UserMapper.java")
+
+		createSrcDir(domainClasspath + separator + "po")
+
+		renderOtherFile(
+			"config/boot/static/domain/User.java",
+			&pomObject,
+			domainClasspath+separator+"po"+separator+"User.java")
 
 		//===================================================================================================创建service模块 ===================================================================================================
 
