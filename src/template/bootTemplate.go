@@ -23,7 +23,15 @@ func CreateBootMavenProject() {
 		log.Println("模块名前缀：" + moduleNamePrefix)
 
 		projectPath := path + string(os.PathSeparator) + projectName
-		log.Println("trying to create ProjectPath:" + projectPath)
+		log.Println("trying to create ProjectPath:    " + projectPath)
+
+		//开始创建工程目录
+		err := os.MkdirAll(projectPath, 0777)
+		if err != nil {
+			log.Printf("%s", err)
+			return
+		}
+		log.Println("Create Direcry OK!")
 
 	}
 }

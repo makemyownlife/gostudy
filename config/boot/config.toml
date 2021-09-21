@@ -1,5 +1,5 @@
 [maven]
-path = "d:\\User\\zhangyong\\go"
+path = "d:\\Users\\zhangyong\\go"
 projectName = "training-order-all"
 moduleNamePrefix = "training-order"
-groupId = "com.iflytek.training"
+groupId = "com.courage.training"
