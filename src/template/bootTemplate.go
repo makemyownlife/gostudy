@@ -2,8 +2,10 @@ package template
 
 import (
 	"github.com/pelletier/go-toml"
+	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 	"text/template"
 )
 
@@ -24,11 +26,13 @@ func CreateBootMavenProject() {
 		projectName := config.Get("maven.projectName").(string)
 		moduleNamePrefix := config.Get("maven.moduleNamePrefix").(string)
 		groupId := config.Get("maven.groupId").(string)
+		basePackage := config.Get("maven.basePackage").(string)
 
 		log.Println("项目根路径：" + path)
 		log.Println("项目名:" + projectName)
 		log.Println("文件分隔符:" + string(os.PathSeparator))
 		log.Println("模块名前缀：" + moduleNamePrefix)
+		log.Println("base包目录：" + basePackage)
 
 		projectPath := path + string(os.PathSeparator) + projectName
 		log.Println("trying to create ProjectPath:    " + projectPath)
@@ -59,5 +63,79 @@ func CreateBootMavenProject() {
 		}
 		defer pomWriter.Close()
 		log.Println("create pomfile success")
+
+		var separator = string(os.PathSeparator)
+
+		//复制 pom gitignore文件到目的目录
+		ignoreFilePath := []string{projectPath, ".gitignore"}
+		copyStaticFileToTarget("config/boot/static/.gitignore", strings.Join(ignoreFilePath, string(os.PathSeparator)))
+
+		//===================================================================================================创建common 模块 ===================================================================================================
+		var commonModule = moduleNamePrefix + "-common"
+		var commonPath = projectPath + string(os.PathSeparator) + commonModule
+		os.MkdirAll(commonPath, 0777)
+
+		var commonSrcPath = commonPath + string(os.PathSeparator) + "src"
+		log.Println("commonSrcPath:   " + commonSrcPath)
+		createSrcDir(commonSrcPath)
+
+		arr := strings.Split(basePackage, ".")
+		packageStr := strings.Join(arr, string(os.PathSeparator))
+		log.Println("包目录：    " + packageStr)
+
+		var commonMainPath = commonSrcPath + separator + "main"
+		var commonJavaPath = commonMainPath + separator + "java"
+		var commonResPath = commonMainPath + separator + "resources"
+		var commonTestPath = commonSrcPath + separator + "test"
+		var commonTestJavaPath = commonTestPath + separator + "java"
+
+		createSrcDir(commonJavaPath)
+		createSrcDir(commonResPath)
+		createSrcDir(commonTestPath)
+		createSrcDir(commonTestJavaPath)
+
+		commonClasspath := commonJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "common"
+		createSrcDir(commonClasspath)
+
+		var commonPackageInfo = "package " + basePackage + ".common;"
+		ioutil.WriteFile(commonClasspath+separator+"package-info.java", []byte(string(commonPackageInfo)), 0777)
+
+		//===================================================================================================创建api 模块 ===================================================================================================
+		var apiModule = moduleNamePrefix + "-api"
+		var apiPath = projectPath + string(os.PathSeparator) + apiModule
+		os.MkdirAll(apiPath, 0777)
+
+		var apiSrcPath = apiPath + string(os.PathSeparator) + "src"
+		log.Println("apiSrcPath:   " + apiSrcPath)
+		createSrcDir(apiSrcPath)
+
+		var apiMainPath = apiSrcPath + separator + "main"
+		var apiJavaPath = apiMainPath + separator + "java"
+		var apiResPath = apiMainPath + separator + "resources"
+		var apiTestPath = apiSrcPath + separator + "test"
+		var apiTestJavaPath = apiTestPath + separator + "java"
+
+		createSrcDir(apiJavaPath)
+		createSrcDir(apiResPath)
+		createSrcDir(apiTestPath)
+		createSrcDir(apiTestJavaPath)
+
+		apiClasspath := apiJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "api"
+		createSrcDir(apiClasspath)
+
+		var apiPackageInfo = "package " + basePackage + ".api;"
+		ioutil.WriteFile(apiClasspath+separator+"package-info.java", []byte(string(apiPackageInfo)), 0777)
+
+		//===================================================================================================创建domain模块 ===================================================================================================
+
+		//===================================================================================================创建service模块 ===================================================================================================
+
+		//===================================================================================================创建provider模块 ===================================================================================================
+
+		//===================================================================================================创建server模块 ===================================================================================================
+
+		//===================================================================================================创建demo模块 ===================================================================================================
+
 	}
+
 }
