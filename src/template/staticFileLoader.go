@@ -55,12 +55,13 @@ func renderPomFile(pomSrc string, p *Inventory2, pomDest string) {
 func renderOtherFile(pomSrc string, p *Inventory2, pomDest string) {
 	var pomStr = readStaticFile(pomSrc)
 	var pomTmp, err = template.New(pomDest).Parse(pomStr) //建立一个模板
-	//将struct与模板合成，合成结果放到os.Stdout里
-	var pomWriter, err3 = os.Create(pomDest) //创建文件
-	err = pomTmp.Execute(pomWriter, p)
 	if err != nil {
 		panic(err)
 	}
+	//将struct与模板合成，合成结果放到os.Stdout里
+	var pomWriter, err3 = os.Create(pomDest) //创建文件
+	err = pomTmp.Execute(pomWriter, p)
+
 	if err3 != nil {
 		panic(err)
 	}

@@ -267,10 +267,33 @@ func CreateBootMavenProject() {
 		serverClasspath := serverJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "server"
 		createSrcDir(serverClasspath)
 
-		var serverPackageInfo = "package " + basePackage + ".server;"
-		ioutil.WriteFile(serverClasspath+separator+"package-info.java", []byte(string(serverPackageInfo)), 0777)
-
 		renderPomFile("config/boot/static/server/pom.xml", &pomObject, serverPath)
+
+		renderOtherFile(
+			"config/boot/static/server/MainApplication.java",
+			&pomObject,
+			serverClasspath+separator+"MainApplication.java")
+
+		renderOtherFile(
+			"config/boot/static/server/application.yml",
+			&pomObject,
+			serverResPath+separator+"application.yml")
+
+		renderOtherFile(
+			"config/boot/static/server/application-prod.yml",
+			&pomObject,
+			serverResPath+separator+"application-prod.yml")
+
+		renderOtherFile(
+			"config/boot/static/server/application-test.yml",
+			&pomObject,
+			serverResPath+separator+"application-test.yml")
+
+		createSrcDir(serverResPath + separator + "logger")
+
+		copyStaticFileToTarget("config/boot/static/server/logback-prod.xml", serverResPath+separator+"logger"+separator+"logback-prod.xml")
+		copyStaticFileToTarget("config/boot/static/server/logback-test.xml", serverResPath+separator+"logger"+separator+"logback-test.xml")
+
 		//===================================================================================================创建demo模块 ===================================================================================================
 
 	}

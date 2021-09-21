@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: test
+  application:
+    name: {{.ProjectName}}
+
+server:
+  port: 18800
+  servlet:
+    context-path: /{{.ModuleNamePrefix}}-server
+
+pagehelper:
+  supportMethodsArguments: true
+  reasonable: false
+  helperDialect: mysql
+  params: count=countSql
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: {{.BasePackage}}.domain.po
+
