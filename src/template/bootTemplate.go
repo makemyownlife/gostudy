@@ -4,7 +4,14 @@ import (
 	"github.com/pelletier/go-toml"
 	"log"
 	"os"
+	"text/template"
 )
+
+type Inventory2 struct {
+	GroupId          string
+	ProjectName      string
+	ModuleNamePrefix string
+}
 
 func CreateBootMavenProject() {
 	execDirAbsPath, _ := os.Getwd()
@@ -16,6 +23,7 @@ func CreateBootMavenProject() {
 		path := config.Get("maven.path").(string)
 		projectName := config.Get("maven.projectName").(string)
 		moduleNamePrefix := config.Get("maven.moduleNamePrefix").(string)
+		groupId := config.Get("maven.groupId").(string)
 
 		log.Println("项目根路径：" + path)
 		log.Println("项目名:" + projectName)
@@ -33,5 +41,23 @@ func CreateBootMavenProject() {
 		}
 		log.Println("Create Direcry OK!")
 
+		//创建pom文件
+		pomObject := Inventory2{groupId, projectName, moduleNamePrefix}
+		//创建pom文件目录
+		pomStr := readStaticFile("config/boot/static/pom.xml")
+		pomTmp, err := template.New("pom").Parse(pomStr) //建立一个模板
+		//将struct与模板合成，合成结果放到os.Stdout里
+		var pomPath = projectPath + string(os.PathSeparator) + "pom.xml"
+		log.Println("create pomfile start pomPath:" + pomPath)
+		pomWriter, err3 := os.Create(pomPath) //创建文件
+		err = pomTmp.Execute(pomWriter, pomObject)
+		if err != nil {
+			panic(err)
+		}
+		if err3 != nil {
+			panic(err)
+		}
+		defer pomWriter.Close()
+		log.Println("create pomfile success")
 	}
 }
