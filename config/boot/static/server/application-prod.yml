@@ -11,7 +11,7 @@ spring:
     password: ilxw
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      max-active: 10
+      max-active: 50
       max-wait: 10000
       min-idle: 5
       initial-size: 5
@@ -29,7 +29,9 @@ spring:
 dubbo:
   registry:
     address: zookeeper://localhost:2181?backup=localhost:2181,localhost:2181
-    port: 9991
+  protocol:
+    name: dubbo
+    port: 10996
   application:
     id: training-order-server
     name: training-order-server
@@ -38,11 +40,3 @@ dubbo:
 
 logging:
   config: classpath:logger/logback-prod.xml
-  seclib:
-    headSecurity:
-      cspEnabled: true
-      open: true
-    csrf:
-      tokenInrespHeader: 'on'
-      open: false
-      tokenInSession: 'off'

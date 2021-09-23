@@ -20,6 +20,14 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.courage.training</groupId>
+            <artifactId>training-framework-redis</artifactId>
+            <scope>system</scope>
+            <version>1.0-SNAPSHOT</version>
+            <systemPath>${project.basedir}/../lib/training-framework-redis-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
 </project>
