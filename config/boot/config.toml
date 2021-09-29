@@ -1,6 +1,6 @@
 [maven]
 path = "D:\\workspace\\jianpeijianguan"
-projectName = "supervise-dubbo-all"
-moduleNamePrefix = "supervise-dubbo"
-groupId = "com.courage.training"
-basePackage = "com.courage.training.supervise.dubbo"
+projectName = "demo-all"
+moduleNamePrefix = "demo"
+groupId = "com.courage.demo"
+basePackage = "com.courage.demo"

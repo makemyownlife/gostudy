@@ -186,6 +186,8 @@ func CreateBootMavenProject() {
 			&pomObject,
 			domainClasspath+separator+"po"+separator+"User.java")
 
+		createSrcDir(domainResPath + separator + "mapper")
+
 		renderOtherFile(
 			"config/boot/static/domain/UserMapper.xml",
 			&pomObject,
@@ -224,39 +226,6 @@ func CreateBootMavenProject() {
 			"config/boot/static/service/UserService.java",
 			&pomObject,
 			serviceClasspath+separator+"UserService.java")
-
-		//===================================================================================================创建provider模块 ===================================================================================================
-		var providerModule = moduleNamePrefix + "-provider"
-		var providerPath = projectPath + string(os.PathSeparator) + providerModule
-		os.MkdirAll(providerPath, 0777)
-
-		var providerSrcPath = providerPath + string(os.PathSeparator) + "src"
-		log.Println("providerSrcPath:   " + providerSrcPath)
-		createSrcDir(providerSrcPath)
-
-		var providerMainPath = providerSrcPath + separator + "main"
-		var providerJavaPath = providerMainPath + separator + "java"
-		var providerResPath = providerMainPath + separator + "resources"
-		var providerTestPath = providerSrcPath + separator + "test"
-		var providerTestJavaPath = providerTestPath + separator + "java"
-
-		createSrcDir(providerJavaPath)
-		createSrcDir(providerResPath)
-		createSrcDir(providerTestPath)
-		createSrcDir(providerTestJavaPath)
-
-		providerClasspath := providerJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "provider"
-		createSrcDir(providerClasspath)
-
-		var providerPackageInfo = "package " + basePackage + ".provider;"
-		ioutil.WriteFile(providerClasspath+separator+"package-info.java", []byte(string(providerPackageInfo)), 0777)
-
-		renderOtherFile(
-			"config/boot/static/provider/TestDubboServiceImpl.java",
-			&pomObject,
-			providerClasspath+separator+"TestDubboServiceImpl.java")
-
-		renderPomFile("config/boot/static/provider/pom.xml", &pomObject, providerPath)
 
 		//===================================================================================================创建server模块 ===================================================================================================
 		var serverModule = moduleNamePrefix + "-server"
