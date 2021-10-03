@@ -314,8 +314,8 @@ func CreateBootMavenProject() {
 		createSrcDir(serverMainPath + separator + "assembly")
 		renderOtherFile("config/boot/static/server/assembly/assembly.xml", &pomObject, serverMainPath+separator+"assembly"+separator+"assembly.xml")
 		createSrcDir(serverMainPath + separator + "assembly" + separator + "bin")
-		renderOtherFile("config/boot/static/server/assembly/bin/start.sh", &pomObject, serverMainPath+separator+"assembly"+separator+"bin"+separator+"start.sh")
-		renderOtherFile("config/boot/static/server/assembly/bin/stop.sh", &pomObject, serverMainPath+separator+"assembly"+separator+"bin"+separator+"stop.sh")
+		renderOtherFile("config/boot/static/server/assembly/binTemp/start.sh.temp", &pomObject, serverMainPath+separator+"assembly"+separator+"bin"+separator+"start.sh")
+		renderOtherFile("config/boot/static/server/assembly/binTemp/stop.sh.temp", &pomObject, serverMainPath+separator+"assembly"+separator+"bin"+separator+"stop.sh")
 
 		//===================================================================================================创建demo模块 ===================================================================================================
 
