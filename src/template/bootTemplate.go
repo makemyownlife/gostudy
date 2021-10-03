@@ -310,8 +310,12 @@ func CreateBootMavenProject() {
 		renderOtherFile("config/boot/static/server/logback-prod.xml", &pomObject, serverResPath+separator+"logger"+separator+"logback-prod.xml")
 		renderOtherFile("config/boot/static/server/logback-test.xml", &pomObject, serverResPath+separator+"logger"+separator+"logback-test.xml")
 
-		createSrcDir(serverResPath + separator + "logger")
-		renderOtherFile("config/boot/static/server/logback-prod.xml", &pomObject, serverResPath+separator+"logger"+separator+"logback-prod.xml")
+		// 添加打包相关内容
+		createSrcDir(serverMainPath + separator + "assembly")
+		renderOtherFile("config/boot/static/server/assembly/assembly.xml", &pomObject, serverMainPath+separator+"assembly"+separator+"assembly.xml")
+		createSrcDir(serverMainPath + separator + "assembly" + separator + "bin")
+		renderOtherFile("config/boot/static/server/assembly/bin/start.sh", &pomObject, serverMainPath+separator+"assembly"+separator+"bin"+separator+"start.sh")
+		renderOtherFile("config/boot/static/server/assembly/bin/stop.sh", &pomObject, serverMainPath+separator+"assembly"+separator+"bin"+separator+"stop.sh")
 
 		//===================================================================================================创建demo模块 ===================================================================================================
 

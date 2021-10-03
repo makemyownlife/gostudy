@@ -17,7 +17,6 @@
         <module>{{.ModuleNamePrefix}}-server</module>
         <module>{{.ModuleNamePrefix}}-common</module>
         <module>{{.ModuleNamePrefix}}-provider</module>
-        <module>{{.ModuleNamePrefix}}-demo</module>
     </modules>
 
     <properties>
