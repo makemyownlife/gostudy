@@ -227,6 +227,39 @@ func CreateBootMavenProject() {
 			&pomObject,
 			serviceClasspath+separator+"UserService.java")
 
+		//===================================================================================================创建provider模块 ===================================================================================================
+		var providerModule = moduleNamePrefix + "-provider"
+		var providerPath = projectPath + string(os.PathSeparator) + providerModule
+		os.MkdirAll(providerPath, 0777)
+
+		var providerSrcPath = providerPath + string(os.PathSeparator) + "src"
+		log.Println("providerSrcPath:   " + providerSrcPath)
+		createSrcDir(providerSrcPath)
+
+		var providerMainPath = providerSrcPath + separator + "main"
+		var providerJavaPath = providerMainPath + separator + "java"
+		var providerResPath = providerMainPath + separator + "resources"
+		var providerTestPath = providerSrcPath + separator + "test"
+		var providerTestJavaPath = providerTestPath + separator + "java"
+
+		createSrcDir(providerJavaPath)
+		createSrcDir(providerResPath)
+		createSrcDir(providerTestPath)
+		createSrcDir(providerTestJavaPath)
+
+		providerClasspath := providerJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "provider"
+		createSrcDir(providerClasspath)
+
+		var providerPackageInfo = "package " + basePackage + ".provider;"
+		ioutil.WriteFile(providerClasspath+separator+"package-info.java", []byte(string(providerPackageInfo)), 0777)
+
+		renderOtherFile(
+			"config/boot/static/provider/TestDubboServiceImpl.java",
+			&pomObject,
+			providerClasspath+separator+"TestDubboServiceImpl.java")
+
+		renderPomFile("config/boot/static/provider/pom.xml", &pomObject, providerPath)
+
 		//===================================================================================================创建server模块 ===================================================================================================
 		var serverModule = moduleNamePrefix + "-server"
 		var serverPath = projectPath + string(os.PathSeparator) + serverModule
@@ -276,6 +309,9 @@ func CreateBootMavenProject() {
 
 		renderOtherFile("config/boot/static/server/logback-prod.xml", &pomObject, serverResPath+separator+"logger"+separator+"logback-prod.xml")
 		renderOtherFile("config/boot/static/server/logback-test.xml", &pomObject, serverResPath+separator+"logger"+separator+"logback-test.xml")
+
+		createSrcDir(serverResPath + separator + "logger")
+		renderOtherFile("config/boot/static/server/logback-prod.xml", &pomObject, serverResPath+separator+"logger"+separator+"logback-prod.xml")
 
 		//===================================================================================================创建demo模块 ===================================================================================================
 
