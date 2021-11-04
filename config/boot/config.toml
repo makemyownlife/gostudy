@@ -1,5 +1,5 @@
 [maven]
-path = "D:\\workspace\\jianpeijianguan"
+path = "D:\\workspace\\"
 projectName = "spring-cache-demo"
 moduleNamePrefix = "cache-demo"
 groupId = "com.courage.spring"

@@ -186,12 +186,13 @@ func CreateBootMavenProject() {
 			&pomObject,
 			domainClasspath+separator+"po"+separator+"User.java")
 
-		createSrcDir(domainResPath + separator + "mapper")
+		mapperDir := domainResPath + separator + "mapper"
+		createSrcDir(mapperDir)
 
 		renderOtherFile(
 			"config/boot/static/domain/UserMapper.xml",
 			&pomObject,
-			domainResPath+separator+"UserMapper.xml")
+			mapperDir+separator+"UserMapper.xml")
 
 		//===================================================================================================创建service模块 ===================================================================================================
 
