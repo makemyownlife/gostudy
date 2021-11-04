@@ -1,6 +1,6 @@
 [maven]
 path = "D:\\workspace\\jianpeijianguan"
-projectName = "home-dubbo-all"
-moduleNamePrefix = "home-dubbo"
-groupId = "com.iflytek.training"
-basePackage = "com.iflytek.training.home"
+projectName = "spring-cache-demo"
+moduleNamePrefix = "cache-demo"
+groupId = "com.courage.spring"
+basePackage = "com.courage.spring.cache"
