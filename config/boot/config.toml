@@ -1,6 +1,6 @@
 [maven]
 path = "D:\\workspace\\jianpeijianguan"
-projectName = "demo-all"
-moduleNamePrefix = "demo"
-groupId = "com.courage.demo"
-basePackage = "com.courage.demo"
+projectName = "home-dubbo-all"
+moduleNamePrefix = "home-dubbo"
+groupId = "com.iflytek.training"
+basePackage = "com.iflytek.training.home"
