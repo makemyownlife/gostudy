@@ -1,9 +1,9 @@
 package {{.BasePackage}}.api;
 
-import {{.BasePackage}}.api.dto.HelloResult;
+import {{.BasePackage}}.api.dto.DubboRpcResult;
 
 public interface TestDubboService {
 
-    HelloResult hello(String mylife);
+    DubboRpcResult hello(String mylife);
 
 }

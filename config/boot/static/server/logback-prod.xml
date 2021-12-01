@@ -18,7 +18,6 @@
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--文件的路径与名称,{yyyy-MM-dd.HH}精确到小时,则按小时分割保存-->
             <FileNamePattern>
                 ${LOG_HOME}/server.%d{yyyy-MM-dd}.log
             </FileNamePattern>
@@ -33,6 +32,7 @@
 
     <!-- 日志输出级别 -->
     <root level="INFO">
+        <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>
 

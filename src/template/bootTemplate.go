@@ -136,9 +136,9 @@ func CreateBootMavenProject() {
 		createSrcDir(apiClasspath + separator + "dto")
 
 		renderOtherFile(
-			"config/boot/static/api/dto/HelloResult.java",
+			"config/boot/static/api/dto/DubboRpcResult.java",
 			&pomObject,
-			apiClasspath+separator+"dto"+separator+"HelloResult.java")
+			apiClasspath+separator+"dto"+separator+"DubboRpcResult.java")
 
 		renderOtherFile(
 			"config/boot/static/api/TestDubboService.java",
