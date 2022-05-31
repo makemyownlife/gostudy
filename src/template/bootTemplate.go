@@ -570,6 +570,13 @@ func CreateBootMavenProject() {
 			&pomObject,
 			serverClasspath+separator+"config"+separator+"SwaggerConfig.java")
 
+		//创建 controller
+		createSrcDir(serverClasspath + string(os.PathSeparator) + "controller")
+		renderOtherFile(
+			"config/boot/static/server-boot/controller/TestController.java",
+			&pomObject,
+			serverClasspath+separator+"controller"+separator+"TestController.java")
+
 		renderPomFile("config/boot/static/server-boot/pom.xml", &pomObject, serverPath)
 
 		renderOtherFile(
