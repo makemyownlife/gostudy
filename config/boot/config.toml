@@ -4,3 +4,5 @@ projectName = "spring-cache-demo"
 moduleNamePrefix = "cache-demo"
 groupId = "com.courage.spring"
 basePackage = "com.courage.spring.cache"
+## 是否 dubbo 版本
+isDubbo = "0"
