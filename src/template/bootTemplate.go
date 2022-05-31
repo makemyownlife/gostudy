@@ -284,6 +284,20 @@ func CreateDubboMavenProject() {
 		serverClasspath := serverJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "server"
 		createSrcDir(serverClasspath)
 
+		createSrcDir(serverClasspath + string(os.PathSeparator) + "config")
+		renderOtherFile(
+			"config/boot/static/server-boot/config/RedisConfig.java",
+			&pomObject,
+			serverClasspath+separator+"config"+separator+"RedisConfig.java")
+		renderOtherFile(
+			"config/boot/static/server-boot/config/CorsConfig.java",
+			&pomObject,
+			serverClasspath+separator+"config"+separator+"CorsConfig.java")
+		renderOtherFile(
+			"config/boot/static/server-boot/config/WebMvcConfig.java",
+			&pomObject,
+			serverClasspath+separator+"config"+separator+"WebMvcConfig.java")
+
 		renderPomFile("config/boot/static/server/pom.xml", &pomObject, serverPath)
 
 		renderOtherFile(
@@ -535,6 +549,26 @@ func CreateBootMavenProject() {
 
 		serverClasspath := serverJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "server"
 		createSrcDir(serverClasspath)
+
+		//创建 config 配置java类
+		createSrcDir(serverClasspath + string(os.PathSeparator) + "config")
+		renderOtherFile(
+			"config/boot/static/server-boot/config/RedisConfig.java",
+			&pomObject,
+			serverClasspath+separator+"config"+separator+"RedisConfig.java")
+		renderOtherFile(
+			"config/boot/static/server-boot/config/CorsConfig.java",
+			&pomObject,
+			serverClasspath+separator+"config"+separator+"CorsConfig.java")
+		renderOtherFile(
+			"config/boot/static/server-boot/config/WebMvcConfig.java",
+			&pomObject,
+			serverClasspath+separator+"config"+separator+"WebMvcConfig.java")
+
+		renderOtherFile(
+			"config/boot/static/server-boot/config/SwaggerConfig.java",
+			&pomObject,
+			serverClasspath+separator+"config"+separator+"SwaggerConfig.java")
 
 		renderPomFile("config/boot/static/server-boot/pom.xml", &pomObject, serverPath)
 
