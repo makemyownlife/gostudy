@@ -12,9 +12,9 @@ spring:
   #数据库
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://10.1.86.119:33301/training?useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true&serverTimezone=GMT%2B8&
-    username: training
-    password: training!123
+    url: jdbc:mysql://10.1.86.119:33301/shuangjian?useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true&serverTimezone=GMT%2B8&
+    username: xxl_job
+    password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       max-active: 50
@@ -37,7 +37,7 @@ dubbo:
     address: zookeeper://10.1.86.119:2181?backup=10.1.86.119:2181,10.1.86.119:2181
   protocol:
     name: dubbo
-    port: 10996
+    port: 17990
   application:
     id: {{.ModuleNamePrefix}}-server
     name: {{.ModuleNamePrefix}}-server
