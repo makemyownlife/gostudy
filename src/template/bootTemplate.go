@@ -411,6 +411,23 @@ func CreateBootMavenProject() {
 		var commonPackageInfo = "package " + basePackage + ".common;"
 		ioutil.WriteFile(commonClasspath+separator+"package-info.java", []byte(string(commonPackageInfo)), 0777)
 
+		createSrcDir(commonClasspath + string(os.PathSeparator) + "result")
+
+		renderOtherFile(
+			"config/boot/static/common/result/ResponseEntity.java",
+			&pomObject,
+			commonClasspath+separator+"result"+separator+"ResponseEntity.java")
+
+		renderOtherFile(
+			"config/boot/static/common/result/ResultPage.java",
+			&pomObject,
+			commonClasspath+separator+"result"+separator+"ResultPage.java")
+
+		renderOtherFile(
+			"config/boot/static/common/result/PageDataInfo.java",
+			&pomObject,
+			commonClasspath+separator+"result"+separator+"PageDataInfo.java")
+
 		renderPomFile("config/boot/static/common/pom.xml", &pomObject, commonPath)
 
 		//===================================================================================================创建domain模块 ===================================================================================================
