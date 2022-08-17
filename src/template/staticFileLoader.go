@@ -4,7 +4,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"text/template"
+)
+
+const (
+	PathSeparator = filepath.Separator
 )
 
 func readStaticFile(path string) string {
@@ -12,7 +17,7 @@ func readStaticFile(path string) string {
 	if err != nil {
 		panic(err)
 	}
-	defer fi.Close()
+	//defer fi.Close()
 	fd, err := ioutil.ReadAll(fi)
 	// fmt.Println(string(fd))
 	return string(fd)
@@ -31,7 +36,7 @@ func copyStaticFileToTarget(filepath string, dest string) {
 	if err != nil {
 		panic(err)
 	}
-	defer fi.Close()
+	//	defer fi.Close()
 	fd, err := ioutil.ReadAll(fi)
 	ioutil.WriteFile(dest, []byte(string(fd)), 0777)
 }
@@ -40,7 +45,7 @@ func renderPomFile(pomSrc string, p *Inventory2, pomDest string) {
 	var pomStr = readStaticFile(pomSrc)
 	var pomTmp, err = template.New("pom").Parse(pomStr) //建立一个模板
 	//将struct与模板合成，合成结果放到os.Stdout里
-	var pomPath = pomDest + string(os.PathSeparator) + "pom.xml"
+	var pomPath = pomDest + string(PathSeparator) + "pom.xml"
 	var pomWriter, err3 = os.Create(pomPath) //创建文件
 	err = pomTmp.Execute(pomWriter, p)
 	if err != nil {
@@ -49,7 +54,7 @@ func renderPomFile(pomSrc string, p *Inventory2, pomDest string) {
 	if err3 != nil {
 		panic(err)
 	}
-	defer pomWriter.Close()
+	//	defer pomWriter.Close()
 }
 
 func renderOtherFile(pomSrc string, p *Inventory2, pomDest string) {
@@ -65,5 +70,5 @@ func renderOtherFile(pomSrc string, p *Inventory2, pomDest string) {
 	if err3 != nil {
 		panic(err)
 	}
-	defer pomWriter.Close()
+	//defer pomWriter.Close()
 }

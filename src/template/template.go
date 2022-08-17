@@ -58,7 +58,7 @@ func CreateMavenProject() {
 		if err3 != nil {
 			panic(err)
 		}
-		defer pomWriter.Close()
+		//	defer pomWriter.Close()
 		fmt.Println("create pomfile success")
 
 		//复制 pom gitignore文件到目的目录

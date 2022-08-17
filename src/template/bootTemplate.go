@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 )
@@ -31,11 +32,11 @@ func CreateDubboMavenProject() {
 
 		log.Println("项目根路径：" + path)
 		log.Println("项目名:" + projectName)
-		log.Println("文件分隔符:" + string(os.PathSeparator))
+		log.Println("文件分隔符:" + string(filepath.Separator))
 		log.Println("模块名前缀：" + moduleNamePrefix)
 		log.Println("base包目录：" + basePackage)
 
-		projectPath := path + string(os.PathSeparator) + projectName
+		projectPath := path + string(filepath.Separator) + projectName
 		log.Println("trying to create ProjectPath:    " + projectPath)
 
 		//开始创建工程目录
@@ -49,10 +50,10 @@ func CreateDubboMavenProject() {
 		//创建pom文件
 		pomObject := Inventory2{groupId, projectName, moduleNamePrefix, basePackage}
 		//创建pom文件目录
-		pomStr := readStaticFile("config/boot/static/pom.xml")
+		pomStr := readStaticFile("config/boot/static/pom-dubbo.xml")
 		pomTmp, err := template.New("pom").Parse(pomStr) //建立一个模板
 		//将struct与模板合成，合成结果放到os.Stdout里
-		var pomPath = projectPath + string(os.PathSeparator) + "pom.xml"
+		var pomPath = projectPath + string(filepath.Separator) + "pom.xml"
 		log.Println("create pomfile start pomPath:" + pomPath)
 		pomWriter, err3 := os.Create(pomPath) //创建文件
 		err = pomTmp.Execute(pomWriter, pomObject)
@@ -62,28 +63,28 @@ func CreateDubboMavenProject() {
 		if err3 != nil {
 			panic(err)
 		}
-		defer pomWriter.Close()
+		//	defer pomWriter.Close()
 		log.Println("create pomfile success")
 
-		var separator = string(os.PathSeparator)
+		var separator = string(filepath.Separator)
 
 		//复制 pom gitignore文件到目的目录
 		ignoreFilePath := []string{projectPath, ".gitignore"}
-		copyStaticFileToTarget("config/boot/static/.gitignore", strings.Join(ignoreFilePath, string(os.PathSeparator)))
+		copyStaticFileToTarget("config/boot/static/.gitignore", strings.Join(ignoreFilePath, string(filepath.Separator)))
 
-		createSrcDir(projectPath + string(os.PathSeparator) + "lib")
-		copyStaticFileToTarget("config/boot/static/lib/training-framework-redis-1.0-SNAPSHOT.jar", projectPath+string(os.PathSeparator)+"lib/training-framework-redis-1.0-SNAPSHOT.jar")
+		createSrcDir(projectPath + string(filepath.Separator) + "lib")
+		copyStaticFileToTarget("config/boot/static/lib/training-framework-redis-1.0-SNAPSHOT.jar", projectPath+string(filepath.Separator)+"lib/training-framework-redis-1.0-SNAPSHOT.jar")
 		//===================================================================================================创建common 模块 ===================================================================================================
 		var commonModule = moduleNamePrefix + "-common"
-		var commonPath = projectPath + string(os.PathSeparator) + commonModule
+		var commonPath = projectPath + string(filepath.Separator) + commonModule
 		os.MkdirAll(commonPath, 0777)
 
-		var commonSrcPath = commonPath + string(os.PathSeparator) + "src"
+		var commonSrcPath = commonPath + string(filepath.Separator) + "src"
 		log.Println("commonSrcPath:   " + commonSrcPath)
 		createSrcDir(commonSrcPath)
 
 		arr := strings.Split(basePackage, ".")
-		packageStr := strings.Join(arr, string(os.PathSeparator))
+		packageStr := strings.Join(arr, string(filepath.Separator))
 		log.Println("包目录：    " + packageStr)
 
 		var commonMainPath = commonSrcPath + separator + "main"
@@ -97,7 +98,7 @@ func CreateDubboMavenProject() {
 		createSrcDir(commonTestPath)
 		createSrcDir(commonTestJavaPath)
 
-		commonClasspath := commonJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "common"
+		commonClasspath := commonJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "common"
 		createSrcDir(commonClasspath)
 
 		var commonPackageInfo = "package " + basePackage + ".common;"
@@ -107,10 +108,10 @@ func CreateDubboMavenProject() {
 
 		//===================================================================================================创建api 模块 ===================================================================================================
 		var apiModule = moduleNamePrefix + "-api"
-		var apiPath = projectPath + string(os.PathSeparator) + apiModule
+		var apiPath = projectPath + string(filepath.Separator) + apiModule
 		os.MkdirAll(apiPath, 0777)
 
-		var apiSrcPath = apiPath + string(os.PathSeparator) + "src"
+		var apiSrcPath = apiPath + string(filepath.Separator) + "src"
 		log.Println("apiSrcPath:   " + apiSrcPath)
 		createSrcDir(apiSrcPath)
 
@@ -125,7 +126,7 @@ func CreateDubboMavenProject() {
 		createSrcDir(apiTestPath)
 		createSrcDir(apiTestJavaPath)
 
-		apiClasspath := apiJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "api"
+		apiClasspath := apiJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "api"
 		createSrcDir(apiClasspath)
 
 		//var apiPackageInfo = "package " + basePackage + ".api;"
@@ -147,10 +148,10 @@ func CreateDubboMavenProject() {
 
 		//===================================================================================================创建domain模块 ===================================================================================================
 		var domainModule = moduleNamePrefix + "-domain"
-		var domainPath = projectPath + string(os.PathSeparator) + domainModule
+		var domainPath = projectPath + string(filepath.Separator) + domainModule
 		os.MkdirAll(domainPath, 0777)
 
-		var domainSrcPath = domainPath + string(os.PathSeparator) + "src"
+		var domainSrcPath = domainPath + string(filepath.Separator) + "src"
 		log.Println("domainSrcPath:   " + domainSrcPath)
 		createSrcDir(domainSrcPath)
 
@@ -165,7 +166,7 @@ func CreateDubboMavenProject() {
 		createSrcDir(domainTestPath)
 		createSrcDir(domainTestJavaPath)
 
-		domainClasspath := domainJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "domain"
+		domainClasspath := domainJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "domain"
 		createSrcDir(domainClasspath)
 
 		var domainPackageInfo = "package " + basePackage + ".domain;"
@@ -197,10 +198,10 @@ func CreateDubboMavenProject() {
 		//===================================================================================================创建service模块 ===================================================================================================
 
 		var serviceModule = moduleNamePrefix + "-service"
-		var servicePath = projectPath + string(os.PathSeparator) + serviceModule
+		var servicePath = projectPath + string(filepath.Separator) + serviceModule
 		os.MkdirAll(servicePath, 0777)
 
-		var serviceSrcPath = servicePath + string(os.PathSeparator) + "src"
+		var serviceSrcPath = servicePath + string(filepath.Separator) + "src"
 		log.Println("serviceSrcPath:   " + serviceSrcPath)
 		createSrcDir(serviceSrcPath)
 
@@ -215,7 +216,7 @@ func CreateDubboMavenProject() {
 		createSrcDir(serviceTestPath)
 		createSrcDir(serviceTestJavaPath)
 
-		serviceClasspath := serviceJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "service"
+		serviceClasspath := serviceJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "service"
 		createSrcDir(serviceClasspath)
 
 		var servicePackageInfo = "package " + basePackage + ".service;"
@@ -230,10 +231,10 @@ func CreateDubboMavenProject() {
 
 		//===================================================================================================创建provider模块 ===================================================================================================
 		var providerModule = moduleNamePrefix + "-provider"
-		var providerPath = projectPath + string(os.PathSeparator) + providerModule
+		var providerPath = projectPath + string(filepath.Separator) + providerModule
 		os.MkdirAll(providerPath, 0777)
 
-		var providerSrcPath = providerPath + string(os.PathSeparator) + "src"
+		var providerSrcPath = providerPath + string(filepath.Separator) + "src"
 		log.Println("providerSrcPath:   " + providerSrcPath)
 		createSrcDir(providerSrcPath)
 
@@ -248,7 +249,7 @@ func CreateDubboMavenProject() {
 		createSrcDir(providerTestPath)
 		createSrcDir(providerTestJavaPath)
 
-		providerClasspath := providerJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "provider"
+		providerClasspath := providerJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "provider"
 		createSrcDir(providerClasspath)
 
 		var providerPackageInfo = "package " + basePackage + ".provider;"
@@ -263,10 +264,10 @@ func CreateDubboMavenProject() {
 
 		//===================================================================================================创建server模块 ===================================================================================================
 		var serverModule = moduleNamePrefix + "-server"
-		var serverPath = projectPath + string(os.PathSeparator) + serverModule
+		var serverPath = projectPath + string(filepath.Separator) + serverModule
 		os.MkdirAll(serverPath, 0777)
 
-		var serverSrcPath = serverPath + string(os.PathSeparator) + "src"
+		var serverSrcPath = serverPath + string(filepath.Separator) + "src"
 		log.Println("serverSrcPath:   " + serverSrcPath)
 		createSrcDir(serverSrcPath)
 
@@ -281,10 +282,10 @@ func CreateDubboMavenProject() {
 		createSrcDir(serverTestPath)
 		createSrcDir(serverTestJavaPath)
 
-		serverClasspath := serverJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "server"
+		serverClasspath := serverJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "server"
 		createSrcDir(serverClasspath)
 
-		createSrcDir(serverClasspath + string(os.PathSeparator) + "config")
+		createSrcDir(serverClasspath + string(filepath.Separator) + "config")
 		renderOtherFile(
 			"config/boot/static/server-boot/config/RedisConfig.java",
 			&pomObject,
@@ -353,11 +354,11 @@ func CreateBootMavenProject() {
 
 		log.Println("项目根路径：" + path)
 		log.Println("项目名:" + projectName)
-		log.Println("文件分隔符:" + string(os.PathSeparator))
+		log.Println("文件分隔符:" + string(filepath.Separator))
 		log.Println("模块名前缀：" + moduleNamePrefix)
 		log.Println("base包目录：" + basePackage)
 
-		projectPath := path + string(os.PathSeparator) + projectName
+		projectPath := path + string(filepath.Separator) + projectName
 		log.Println("trying to create ProjectPath:    " + projectPath)
 
 		//开始创建工程目录
@@ -374,7 +375,7 @@ func CreateBootMavenProject() {
 		pomStr := readStaticFile("config/boot/static/pom.xml")
 		pomTmp, err := template.New("pom").Parse(pomStr) //建立一个模板
 		//将struct与模板合成，合成结果放到os.Stdout里
-		var pomPath = projectPath + string(os.PathSeparator) + "pom.xml"
+		var pomPath = projectPath + string(filepath.Separator) + "pom.xml"
 		log.Println("create pomfile start pomPath:" + pomPath)
 		pomWriter, err3 := os.Create(pomPath) //创建文件
 		err = pomTmp.Execute(pomWriter, pomObject)
@@ -384,28 +385,28 @@ func CreateBootMavenProject() {
 		if err3 != nil {
 			panic(err)
 		}
-		defer pomWriter.Close()
+		//defer pomWriter.Close()
 		log.Println("create pomfile success")
 
-		var separator = string(os.PathSeparator)
+		var separator = string(filepath.Separator)
 
 		//复制 pom gitignore文件到目的目录
 		ignoreFilePath := []string{projectPath, ".gitignore"}
-		copyStaticFileToTarget("config/boot/static/.gitignore", strings.Join(ignoreFilePath, string(os.PathSeparator)))
+		copyStaticFileToTarget("config/boot/static/.gitignore", strings.Join(ignoreFilePath, string(filepath.Separator)))
 
-		createSrcDir(projectPath + string(os.PathSeparator) + "lib")
-		copyStaticFileToTarget("config/boot/static/lib/training-framework-redis-1.0-SNAPSHOT.jar", projectPath+string(os.PathSeparator)+"lib/training-framework-redis-1.0-SNAPSHOT.jar")
+		createSrcDir(projectPath + string(filepath.Separator) + "lib")
+		copyStaticFileToTarget("config/boot/static/lib/training-framework-redis-1.0-SNAPSHOT.jar", projectPath+string(filepath.Separator)+"lib/training-framework-redis-1.0-SNAPSHOT.jar")
 		//===================================================================================================创建common 模块 ===================================================================================================
 		var commonModule = moduleNamePrefix + "-common"
-		var commonPath = projectPath + string(os.PathSeparator) + commonModule
+		var commonPath = projectPath + string(filepath.Separator) + commonModule
 		os.MkdirAll(commonPath, 0777)
 
-		var commonSrcPath = commonPath + string(os.PathSeparator) + "src"
+		var commonSrcPath = commonPath + string(filepath.Separator) + "src"
 		log.Println("commonSrcPath:   " + commonSrcPath)
 		createSrcDir(commonSrcPath)
 
 		arr := strings.Split(basePackage, ".")
-		packageStr := strings.Join(arr, string(os.PathSeparator))
+		packageStr := strings.Join(arr, string(filepath.Separator))
 		log.Println("包目录：    " + packageStr)
 
 		var commonMainPath = commonSrcPath + separator + "main"
@@ -419,13 +420,13 @@ func CreateBootMavenProject() {
 		createSrcDir(commonTestPath)
 		createSrcDir(commonTestJavaPath)
 
-		commonClasspath := commonJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "common"
+		commonClasspath := commonJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "common"
 		createSrcDir(commonClasspath)
 
 		var commonPackageInfo = "package " + basePackage + ".common;"
 		ioutil.WriteFile(commonClasspath+separator+"package-info.java", []byte(string(commonPackageInfo)), 0777)
 
-		createSrcDir(commonClasspath + string(os.PathSeparator) + "result")
+		createSrcDir(commonClasspath + string(filepath.Separator) + "result")
 
 		renderOtherFile(
 			"config/boot/static/common/result/ResponseEntity.java",
@@ -446,10 +447,10 @@ func CreateBootMavenProject() {
 
 		//===================================================================================================创建domain模块 ===================================================================================================
 		var domainModule = moduleNamePrefix + "-domain"
-		var domainPath = projectPath + string(os.PathSeparator) + domainModule
+		var domainPath = projectPath + string(filepath.Separator) + domainModule
 		os.MkdirAll(domainPath, 0777)
 
-		var domainSrcPath = domainPath + string(os.PathSeparator) + "src"
+		var domainSrcPath = domainPath + string(filepath.Separator) + "src"
 		log.Println("domainSrcPath:   " + domainSrcPath)
 		createSrcDir(domainSrcPath)
 
@@ -464,7 +465,7 @@ func CreateBootMavenProject() {
 		createSrcDir(domainTestPath)
 		createSrcDir(domainTestJavaPath)
 
-		domainClasspath := domainJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "domain"
+		domainClasspath := domainJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "domain"
 		createSrcDir(domainClasspath)
 
 		var domainPackageInfo = "package " + basePackage + ".domain;"
@@ -496,10 +497,10 @@ func CreateBootMavenProject() {
 		//===================================================================================================创建service模块 ===================================================================================================
 
 		var serviceModule = moduleNamePrefix + "-service"
-		var servicePath = projectPath + string(os.PathSeparator) + serviceModule
+		var servicePath = projectPath + string(filepath.Separator) + serviceModule
 		os.MkdirAll(servicePath, 0777)
 
-		var serviceSrcPath = servicePath + string(os.PathSeparator) + "src"
+		var serviceSrcPath = servicePath + string(filepath.Separator) + "src"
 		log.Println("serviceSrcPath:   " + serviceSrcPath)
 		createSrcDir(serviceSrcPath)
 
@@ -514,7 +515,7 @@ func CreateBootMavenProject() {
 		createSrcDir(serviceTestPath)
 		createSrcDir(serviceTestJavaPath)
 
-		serviceClasspath := serviceJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "service"
+		serviceClasspath := serviceJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "service"
 		createSrcDir(serviceClasspath)
 
 		var servicePackageInfo = "package " + basePackage + ".service;"
@@ -529,10 +530,10 @@ func CreateBootMavenProject() {
 
 		//===================================================================================================创建server模块 ===================================================================================================
 		var serverModule = moduleNamePrefix + "-server"
-		var serverPath = projectPath + string(os.PathSeparator) + serverModule
+		var serverPath = projectPath + string(filepath.Separator) + serverModule
 		os.MkdirAll(serverPath, 0777)
 
-		var serverSrcPath = serverPath + string(os.PathSeparator) + "src"
+		var serverSrcPath = serverPath + string(filepath.Separator) + "src"
 		log.Println("serverSrcPath:   " + serverSrcPath)
 		createSrcDir(serverSrcPath)
 
@@ -547,11 +548,11 @@ func CreateBootMavenProject() {
 		createSrcDir(serverTestPath)
 		createSrcDir(serverTestJavaPath)
 
-		serverClasspath := serverJavaPath + string(os.PathSeparator) + packageStr + string(os.PathSeparator) + "server"
+		serverClasspath := serverJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "server"
 		createSrcDir(serverClasspath)
 
 		//创建 config 配置java类
-		createSrcDir(serverClasspath + string(os.PathSeparator) + "config")
+		createSrcDir(serverClasspath + string(filepath.Separator) + "config")
 		renderOtherFile(
 			"config/boot/static/server-boot/config/RedisConfig.java",
 			&pomObject,
@@ -571,7 +572,7 @@ func CreateBootMavenProject() {
 			serverClasspath+separator+"config"+separator+"SwaggerConfig.java")
 
 		//创建 controller
-		createSrcDir(serverClasspath + string(os.PathSeparator) + "controller")
+		createSrcDir(serverClasspath + string(filepath.Separator) + "controller")
 		renderOtherFile(
 			"config/boot/static/server-boot/controller/TestController.java",
 			&pomObject,
