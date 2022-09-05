@@ -19,7 +19,7 @@ func readStaticFile(path string) string {
 	}
 	//defer fi.Close()
 	fd, err := ioutil.ReadAll(fi)
-	// fmt.Println(string(fd))
+	fmt.Println(string(fd))
 	return string(fd)
 }
 
@@ -36,7 +36,7 @@ func copyStaticFileToTarget(filepath string, dest string) {
 	if err != nil {
 		panic(err)
 	}
-	//	defer fi.Close()
+	defer fi.Close()
 	fd, err := ioutil.ReadAll(fi)
 	ioutil.WriteFile(dest, []byte(string(fd)), 0777)
 }
@@ -54,7 +54,7 @@ func renderPomFile(pomSrc string, p *Inventory2, pomDest string) {
 	if err3 != nil {
 		panic(err)
 	}
-	//	defer pomWriter.Close()
+	defer pomWriter.Close()
 }
 
 func renderOtherFile(pomSrc string, p *Inventory2, pomDest string) {
