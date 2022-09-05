@@ -280,4 +280,13 @@
         </profile>
     </profiles>
 
+    <repositories>
+
+        <repository>
+            <id>repo-aliyun</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+
+    </repositories>
+
 </project>
