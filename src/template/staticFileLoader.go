@@ -19,7 +19,6 @@ func readStaticFile(path string) string {
 	}
 	//defer fi.Close()
 	fd, err := ioutil.ReadAll(fi)
-	fmt.Println(string(fd))
 	return string(fd)
 }
 
