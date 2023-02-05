@@ -19,11 +19,11 @@ public class TestDubboServiceImpl implements TestDubboService {
     private final static Logger logger = LoggerFactory.getLogger(TestDubboServiceImpl.class);
 
     @Autowired
-    UserService userService;
+    TestService testService;
 
     @Override
     public DubboRpcResult hello(String mylife) {
-        User user = userService.getUserById(1L);
+        User user = testService.getUserById(1L);
         logger.info("user:" + JSON.toJSONString(user));
         return DubboRpcResult.custom(DubboRpcResult.SUCCESS, user);
     }

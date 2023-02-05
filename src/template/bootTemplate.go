@@ -225,9 +225,9 @@ func CreateDubboMavenProject() {
 		renderPomFile("config/boot/static/service/pom.xml", &pomObject, servicePath)
 
 		renderOtherFile(
-			"config/boot/static/service/UserService.java",
+			"config/boot/static/service/TestService.java",
 			&pomObject,
-			serviceClasspath+separator+"UserService.java")
+			serviceClasspath+separator+"TestService.java")
 
 		//===================================================================================================创建provider模块 ===================================================================================================
 		var providerModule = moduleNamePrefix + "-provider"
@@ -524,9 +524,9 @@ func CreateBootMavenProject() {
 		renderPomFile("config/boot/static/service/pom.xml", &pomObject, servicePath)
 
 		renderOtherFile(
-			"config/boot/static/service/UserService.java",
+			"config/boot/static/service/TestService.java",
 			&pomObject,
-			serviceClasspath+separator+"UserService.java")
+			serviceClasspath+separator+"TestService.java")
 
 		//===================================================================================================创建server模块 ===================================================================================================
 		var serverModule = moduleNamePrefix + "-server"
