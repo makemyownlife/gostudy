@@ -14,7 +14,7 @@ if [ -z "$PIDS" ]; then
 fi
 
 if [ "$1" != "skip" ]; then
-    $BIN_DIR/dump.sh
+
 fi
 
 echo -e "Stopping the $SERVER_NAME ...\c"
