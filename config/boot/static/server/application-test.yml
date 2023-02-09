@@ -4,10 +4,8 @@ spring:
     time-zone: GMT+8
 
   redis:
-    type: single
-    single:
-      address: 10.1.86.119:6303
-      password: XGVKwO3s
+    host: 127.0.0.1
+    port: 6379
 
   #数据库
   datasource:

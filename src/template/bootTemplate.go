@@ -394,8 +394,6 @@ func CreateBootMavenProject() {
 		ignoreFilePath := []string{projectPath, ".gitignore"}
 		copyStaticFileToTarget("config/boot/static/.gitignore", strings.Join(ignoreFilePath, string(filepath.Separator)))
 
-		createSrcDir(projectPath + string(filepath.Separator) + "lib")
-		copyStaticFileToTarget("config/boot/static/lib/training-framework-redis-1.0-SNAPSHOT.jar", projectPath+string(filepath.Separator)+"lib/training-framework-redis-1.0-SNAPSHOT.jar")
 		//===================================================================================================创建common 模块 ===================================================================================================
 		var commonModule = moduleNamePrefix + "-common"
 		var commonPath = projectPath + string(filepath.Separator) + commonModule
