@@ -23,9 +23,7 @@ public class TestDubboServiceImpl implements TestDubboService {
 
     @Override
     public DubboRpcResult hello(String mylife) {
-        User user = testService.getUserById(1L);
-        logger.info("user:" + JSON.toJSONString(user));
-        return DubboRpcResult.custom(DubboRpcResult.SUCCESS, user);
+        return DubboRpcResult.custom(DubboRpcResult.SUCCESS, null);
     }
 
 }

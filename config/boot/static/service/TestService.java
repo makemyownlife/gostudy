@@ -1,7 +1,7 @@
 package {{.BasePackage}}.service;
 
-import {{.BasePackage}}.domain.mapper.UserMapper;
-import {{.BasePackage}}.domain.po.User;
+import {{.BasePackage}}.domain.mapper.TestMapper;
+import {{.BasePackage}}.domain.po.TestPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +9,6 @@ import org.springframework.stereotype.Service;
 public class TestService {
 
     @Autowired
-    private UserMapper userMapper;
-
-    public User getUserById(Long id) {
-        return userMapper.getUserById(id);
-    }
+    private TestMapper TestMapper;
 
 }

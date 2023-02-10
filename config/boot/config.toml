@@ -1,8 +1,8 @@
 [maven]
 path = "/Users/zhangyong/Downloads/"
-projectName = "spring-cache-demo"
-moduleNamePrefix = "cache-demo"
-groupId = "com.courage.spring"
-basePackage = "com.courage.spring.cache"
+projectName = "shardingsphere-jdbc-demo"
+moduleNamePrefix = "shardingsphere-jdbc"
+groupId = "com.courage."
+basePackage = "com.courage.shardingsphere.jdbc"
 ## 是否 dubbo 版本
 isDubbo = "0"

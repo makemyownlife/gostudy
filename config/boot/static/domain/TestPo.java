@@ -2,7 +2,7 @@ package {{.BasePackage}}.domain.po;
 
 import java.util.Date;
 
-public class User {
+public class TestPo {
 
     private Long id;
 

@@ -176,9 +176,9 @@ func CreateDubboMavenProject() {
 		createSrcDir(domainClasspath + separator + "mapper")
 
 		renderOtherFile(
-			"config/boot/static/domain/UserMapper.java",
+			"config/boot/static/domain/TestMapper.java",
 			&pomObject,
-			domainClasspath+separator+"mapper"+separator+"UserMapper.java")
+			domainClasspath+separator+"mapper"+separator+"TestMapper.java")
 
 		createSrcDir(domainClasspath + separator + "po")
 
@@ -191,9 +191,9 @@ func CreateDubboMavenProject() {
 		createSrcDir(mapperDir)
 
 		renderOtherFile(
-			"config/boot/static/domain/UserMapper.xml",
+			"config/boot/static/domain/TestMapper.xml",
 			&pomObject,
-			mapperDir+separator+"UserMapper.xml")
+			mapperDir+separator+"TestMapper.xml")
 
 		//===================================================================================================创建service模块 ===================================================================================================
 
@@ -473,24 +473,24 @@ func CreateBootMavenProject() {
 		createSrcDir(domainClasspath + separator + "mapper")
 
 		renderOtherFile(
-			"config/boot/static/domain/UserMapper.java",
+			"config/boot/static/domain/TestMapper.java",
 			&pomObject,
-			domainClasspath+separator+"mapper"+separator+"UserMapper.java")
+			domainClasspath+separator+"mapper"+separator+"TestMapper.java")
 
 		createSrcDir(domainClasspath + separator + "po")
 
 		renderOtherFile(
-			"config/boot/static/domain/User.java",
+			"config/boot/static/domain/TestPo.java",
 			&pomObject,
-			domainClasspath+separator+"po"+separator+"User.java")
+			domainClasspath+separator+"po"+separator+"TestPo.java")
 
 		mapperDir := domainResPath + separator + "mapper"
 		createSrcDir(mapperDir)
 
 		renderOtherFile(
-			"config/boot/static/domain/UserMapper.xml",
+			"config/boot/static/domain/TestMapper.xml",
 			&pomObject,
-			mapperDir+separator+"UserMapper.xml")
+			mapperDir+separator+"TestMapper.xml")
 
 		//===================================================================================================创建service模块 ===================================================================================================
 
@@ -515,9 +515,6 @@ func CreateBootMavenProject() {
 
 		serviceClasspath := serviceJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "service"
 		createSrcDir(serviceClasspath)
-
-		var servicePackageInfo = "package " + basePackage + ".service;"
-		ioutil.WriteFile(serviceClasspath+separator+"package-info.java", []byte(string(servicePackageInfo)), 0777)
 
 		renderPomFile("config/boot/static/service/pom.xml", &pomObject, servicePath)
 

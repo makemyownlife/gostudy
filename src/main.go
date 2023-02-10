@@ -22,4 +22,6 @@ func main() {
 			template.CreateBootMavenProject()
 		}
 	}
+	//执行 MyBatis generator 命令
+
 }
