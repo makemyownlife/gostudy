@@ -72,8 +72,6 @@ func CreateDubboMavenProject() {
 		ignoreFilePath := []string{projectPath, ".gitignore"}
 		copyStaticFileToTarget("config/boot/static/.gitignore", strings.Join(ignoreFilePath, string(filepath.Separator)))
 
-		createSrcDir(projectPath + string(filepath.Separator) + "lib")
-		copyStaticFileToTarget("config/boot/static/lib/training-framework-redis-1.0-SNAPSHOT.jar", projectPath+string(filepath.Separator)+"lib/training-framework-redis-1.0-SNAPSHOT.jar")
 		//===================================================================================================创建common 模块 ===================================================================================================
 		var commonModule = moduleNamePrefix + "-common"
 		var commonPath = projectPath + string(filepath.Separator) + commonModule
@@ -183,9 +181,9 @@ func CreateDubboMavenProject() {
 		createSrcDir(domainClasspath + separator + "po")
 
 		renderOtherFile(
-			"config/boot/static/domain/User.java",
+			"config/boot/static/domain/TestPo.java",
 			&pomObject,
-			domainClasspath+separator+"po"+separator+"User.java")
+			domainClasspath+separator+"po"+separator+"TestPo.java")
 
 		mapperDir := domainResPath + separator + "mapper"
 		createSrcDir(mapperDir)
@@ -219,9 +217,6 @@ func CreateDubboMavenProject() {
 		serviceClasspath := serviceJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "service"
 		createSrcDir(serviceClasspath)
 
-		var servicePackageInfo = "package " + basePackage + ".service;"
-		ioutil.WriteFile(serviceClasspath+separator+"package-info.java", []byte(string(servicePackageInfo)), 0777)
-
 		renderPomFile("config/boot/static/service/pom.xml", &pomObject, servicePath)
 
 		renderOtherFile(
@@ -251,9 +246,6 @@ func CreateDubboMavenProject() {
 
 		providerClasspath := providerJavaPath + string(filepath.Separator) + packageStr + string(filepath.Separator) + "provider"
 		createSrcDir(providerClasspath)
-
-		var providerPackageInfo = "package " + basePackage + ".provider;"
-		ioutil.WriteFile(providerClasspath+separator+"package-info.java", []byte(string(providerPackageInfo)), 0777)
 
 		renderOtherFile(
 			"config/boot/static/provider/TestDubboServiceImpl.java",

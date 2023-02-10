@@ -22,6 +22,6 @@ func main() {
 			template.CreateBootMavenProject()
 		}
 	}
-	//执行 MyBatis generator 命令
+	//执行 MyBatis generator 命令 ,  并将生成的domain ，mapper 拷贝到相关的目录
 
 }
